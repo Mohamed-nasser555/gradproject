@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فتيات القوة | مشروع التخرج</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --black: #111;
+      --dark: #171717;
+      --red: #ff4b3e;
+      --red-dark: #df3328;
+      --white: #fff;
+      --muted: #776f67;
+      --card: rgba(255, 255, 255, 0.78);
+      --border: rgba(17, 17, 17, 0.08);
+      --shadow: 0 24px 80px rgba(17, 17, 17, 0.13);
+      --radius: 30px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: "Tajawal", "Cairo", sans-serif;
+      background: var(--bg);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(255, 75, 62, 0.13), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(17, 17, 17, 0.08), transparent 24%),
+        radial-gradient(circle at 50% 90%, rgba(255, 75, 62, 0.09), transparent 28%);
+      z-index: -2;
+    }
+
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--red), #ffb199);
+      z-index: 2000;
+      box-shadow: 0 0 18px rgba(255, 75, 62, 0.7);
+    }
+
+    .floating-home {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      position: fixed;
+      bottom: 22px;
+      left: 22px;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg,var(--red),#ff846f);
+      color: white;
+      text-decoration: none;
+      font-size: 1.4rem;
+      font-weight: 900;
+      z-index: 1500;
+      box-shadow: 0 16px 35px rgba(255,75,62,0.35);
+      transition: 0.3s ease;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    .floating-home.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .floating-home:hover {
+      transform: translateY(-5px) scale(1.05);
+    }
+
+    .navbar {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1180px, calc(100% - 28px));
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      border-radius: 999px;
+      background: rgba(17, 17, 17, 0.92);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+      direction: ltr;
+      transition: 0.35s ease;
+    }
+
+    .navbar.side-mode {
+      top: 22px;
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      width: auto;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(17,17,17,0.82);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.22);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .navbar.side-mode .quick-nav {
+      flex-direction: row;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .navbar.side-mode .quick-btn:not(.home-btn) {
+      writing-mode: horizontal-tb;
+      min-height: auto;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.92);
+    }
+
+    .logo {
+      direction: rtl;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--white);
+      font-weight: 900;
+      font-size: 1.05rem;
+      white-space: nowrap;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), #ff8a7f);
+      box-shadow: 0 0 24px rgba(255, 75, 62, 0.45);
+    }
+
+    .nav-links {
+      direction: rtl;
+      list-style: none;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .quick-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      direction: rtl;
+    }
+
+    .quick-btn {
+      font-family: "Tajawal", sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.88);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.92rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: 0.25s ease;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+
+    .quick-btn:hover {
+      background: var(--red);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(255,75,62,0.35);
+    }
+
+    .home-btn {
+      width: 54px;
+      height: 54px;
+      padding: 0;
+      border-radius: 50%;
+      font-size: 1rem;
+      background: linear-gradient(135deg,var(--red),#ff846f);
+      box-shadow: 0 10px 24px rgba(255,75,62,0.28);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .home-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      font-size: 0.94rem;
+      font-weight: 700;
+      padding: 9px 14px;
+      border-radius: 999px;
+      transition: 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--white);
+      background: rgba(255, 75, 62, 0.16);
+      box-shadow: inset 0 0 0 1px rgba(255, 75, 62, 0.35);
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 0;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.35rem;
+    }
+
+    .hero {
+      min-height: 100vh;
+      min-height: 100svh;
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      color: var(--white);
+      padding: 120px 20px 70px;
+      background:
+        linear-gradient(rgba(8, 8, 8, 0.72), rgba(8, 8, 8, 0.78)),
+        url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop") center/cover;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(3px);
+      opacity: 0.8;
+      animation: float 7s ease-in-out infinite;
+    }
+
+    .hero::before {
+      width: 270px;
+      height: 270px;
+      right: -80px;
+      top: 150px;
+      background: rgba(255, 75, 62, 0.28);
+    }
+
+    .hero::after {
+      width: 180px;
+      height: 180px;
+      left: 8%;
+      bottom: 110px;
+      background: rgba(255, 255, 255, 0.12);
+      animation-delay: -2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-24px) scale(1.04); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 920px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero h1 {
+      font-family: "Tajawal", sans-serif;
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      line-height: 1.15;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+      text-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 1.7vw, 1.3rem);
+      max-width: 760px;
+      margin: 0 auto 34px;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 2.1;
+      font-weight: 600;
+    }
+
+    .hero-team {
+      font-size: clamp(1rem, 1.7vw, 1.3rem);
+      line-height: 2.1;
+      color: rgba(255, 255, 255, 0.88);
+      font-weight: 600;
+      margin: 0 auto 34px;
+    }
+
+    .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      background: var(--red);
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 900;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 18px 40px rgba(255, 75, 62, 0.35);
+      transition: 0.25s ease;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-4px);
+      background: var(--red-dark);
+      box-shadow: 0 24px 55px rgba(255, 75, 62, 0.42);
+    }
+
+    .section {
+      width: 100%;
+      margin: 0;
+      padding: 86px 0;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--red);
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    .section-label::before {
+      content: "";
+      width: 34px;
+      height: 3px;
+      background: var(--red);
+      border-radius: 999px;
+    }
+
+    .feature-card {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      -webkit-backdrop-filter: blur(22px);
+      backdrop-filter: blur(22px);
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      left: -60px;
+      top: -60px;
+      background: rgba(255, 75, 62, 0.12);
+      border-radius: 50%;
+    }
+
+    .feature-card.reverse {
+      direction: ltr;
+    }
+
+    .feature-card.reverse > * {
+      direction: rtl;
+    }
+
+    .image-box {
+      position: relative;
+      min-height: 420px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 24px 50px rgba(17, 17, 17, 0.16);
+      background: var(--dark);
+    }
+
+    .image-box img {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.04);
+      transition: 0.8s ease;
+      opacity: 0.95;
+    }
+
+    .feature-card:hover .image-box img {
+      transform: scale(1.11) rotate(1deg);
+    }
+
+    .image-overlay {
+      position: absolute;
+      inset: auto 18px 18px 18px;
+      padding: 16px;
+      border-radius: 20px;
+      color: var(--white);
+      background: rgba(17, 17, 17, 0.62);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .image-overlay strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .text-box {
+      position: relative;
+      z-index: 2;
+      text-align: right;
+      padding: 12px;
+    }
+
+    .icon-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 6px;
+    }
+
+    .mini-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 75, 62, 0.09);
+      color: var(--black);
+      font-weight: 800;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255, 75, 62, 0.16);
+    }
+
+    .text-box h2 {
+      font-family: "Tajawal", sans-serif;
+      font-size: clamp(1.75rem, 3vw, 3rem);
+      line-height: 1.2;
+      font-weight: 900;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .text-box p {
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .prompt-box {
+      margin: 20px 0;
+      padding: 18px;
+      border-radius: 20px;
+      background: #111;
+      color: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 0 0 1px rgba(255, 75, 62, 0.08);
+      font-family: "Tajawal", "Cairo", sans-serif;
+      line-height: 1.75;
+      font-size: 0.96rem;
+      font-weight: 600;
+      max-height: 480px;
+      overflow: auto;
+      direction: ltr;
+      text-align: left;
+      white-space: normal;
+      scrollbar-width: thin;
+      scrollbar-color: var(--red) rgba(255, 255, 255, 0.12);
+    }
+
+    .prompt-box.pre-line {
+      white-space: pre-wrap;
+    }
+
+    .prompt-box::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .prompt-box::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+    }
+
+    .prompt-box::-webkit-scrollbar-thumb {
+      background: var(--red);
+      border-radius: 999px;
+    }
+
+    .prompt-box span {
+      display: inline-block;
+      margin: 4px 6px 4px 0;
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: rgba(255, 75, 62, 0.2);
+      color: #ffd3cf;
+      font-weight: 900;
+    }
+
+    .nav-buttons {
+      display: none;
+    }
+
+    .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 17px;
+      border-radius: 999px;
+      color: var(--black);
+      text-decoration: none;
+      font-weight: 900;
+      background: rgba(17, 17, 17, 0.05);
+      border: 1px solid var(--border);
+      transition: 0.25s ease;
+    }
+
+    .ghost-btn:hover {
+      background: var(--black);
+      color: var(--white);
+      transform: translateY(-3px);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(17, 17, 17, 0.06);
+    }
+
+    .stat b {
+      color: var(--red);
+      font-size: 1.6rem;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .stat small {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .objectives-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .objective-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(17, 17, 17, 0.06);
+    }
+
+    .objective-item .dot {
+      flex: 0 0 28px;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      background: var(--red);
+      border-radius: 50%;
+      font-weight: 900;
+      margin-top: 4px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(42px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer {
+      width: 100%;
+      margin: 40px auto 24px;
+      padding: 26px;
+      border-radius: 28px;
+      background: #111;
+      color: var(--white);
+      text-align: center;
+      box-shadow: 0 24px 70px rgba(17, 17, 17, 0.22);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -70px;
+      bottom: -120px;
+      border-radius: 50%;
+      background: rgba(255, 75, 62, 0.28);
+    }
+
+    .footer-content {
+      width: min(960px, calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer h2 {
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      margin-bottom: 8px;
+      font-weight: 900;
+    }
+
+    .footer p {
+      color: rgba(255, 255, 255, 0.68);
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+
+    .prompt-form {
+      display: flex;
+      gap: 10px;
+      max-width: 660px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .prompt-form input {
+      flex: 1;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--white);
+      font-family: inherit;
+      padding: 0 14px;
+      font-size: 1rem;
+    }
+
+    .prompt-form input::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .prompt-form button {
+      border: 0;
+      background: var(--red);
+      color: var(--white);
+      font-family: inherit;
+      font-weight: 900;
+      border-radius: 999px;
+      padding: 11px 22px;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .prompt-form button:hover {
+      background: var(--red-dark);
+      transform: scale(1.03);
+    }
+
+    @media (max-width: 900px) {
+      .navbar.side-mode {
+        top: 12px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: auto;
+        padding: 8px 12px;
+        border-radius: 999px;
+      }
+
+      .navbar.side-mode .quick-nav {
+        flex-direction: row;
+      }
+
+      .navbar.side-mode .quick-btn:not(.home-btn) {
+        writing-mode: horizontal-tb;
+        min-height: auto;
+        padding: 8px 14px;
+        border-radius: 999px;
+      }
+
+      .navbar {
+        top: 10px;
+        width: min(94%, 520px);
+        justify-content: center;
+        padding: 11px 16px;
+        border-radius: 999px;
+      }
+
+      .logo {
+        font-size: 1rem;
+      }
+
+      .logo-mark {
+        width: 34px;
+        height: 34px;
+      }
+
+      .menu-toggle,
+      .nav-links {
+        display: none !important;
+      }
+
+      .quick-nav {
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .quick-btn {
+        padding: 8px 14px;
+        font-size: 0.82rem;
+      }
+
+      .home-btn {
+        width: 40px;
+        height: 40px;
+      }
+
+      .hero {
+        min-height: 88vh;
+        padding: 105px 18px 48px;
+      }
+
+      .hero-badge {
+        font-size: 0.82rem;
+        padding: 8px 14px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.2rem, 11vw, 4rem);
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      .hero-team {
+        font-size: 1rem;
+        line-height: 2;
+      }
+
+      .hero p {
+        font-size: 1rem;
+        line-height: 1.85;
+        margin-bottom: 26px;
+      }
+
+      .primary-btn {
+        padding: 12px 24px;
+      }
+
+      .section {
+        width: 100%;
+        padding: 42px 0;
+      }
+
+      .feature-card,
+      .feature-card.reverse {
+        grid-template-columns: 1fr;
+        direction: rtl;
+        gap: 18px;
+        padding: 14px;
+        border-radius: 24px;
+      }
+
+      .image-box,
+      .image-box img {
+        min-height: 235px;
+        height: 235px;
+        border-radius: 20px;
+      }
+
+      .image-overlay {
+        inset: auto 12px 12px 12px;
+        padding: 12px;
+        border-radius: 16px;
+      }
+
+      .text-box {
+        padding: 8px 4px 4px;
+      }
+
+      .section-label {
+        font-size: 0.92rem;
+        margin-bottom: 10px;
+      }
+
+      .text-box h2 {
+        font-size: clamp(1.65rem, 8vw, 2.35rem);
+        margin-bottom: 12px;
+      }
+
+      .text-box p {
+        font-size: 0.96rem;
+        line-height: 1.9;
+      }
+
+      .prompt-box {
+        max-height: none;
+        overflow: visible;
+        padding: 16px;
+        border-radius: 18px;
+        font-size: 0.9rem;
+        line-height: 1.75;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+      }
+
+      .nav-buttons {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .ghost-btn {
+        justify-content: center;
+        padding: 11px 14px;
+        font-size: 0.92rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .stat {
+        padding: 14px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        background: #fbf6ee;
+      }
+
+      .progress-bar {
+        height: 3px;
+      }
+
+      .hero {
+        min-height: 82vh;
+        padding-top: 96px;
+      }
+
+      .hero::before {
+        width: 190px;
+        height: 190px;
+        right: -95px;
+      }
+
+      .hero::after {
+        width: 120px;
+        height: 120px;
+        left: -35px;
+      }
+
+      .feature-card {
+        box-shadow: 0 14px 38px rgba(17, 17, 17, 0.12);
+      }
+
+      .image-box,
+      .image-box img {
+        min-height: 205px;
+        height: 205px;
+      }
+
+      .prompt-box {
+        font-size: 0.84rem;
+        line-height: 1.7;
+      }
+
+      .footer {
+        width: 100%;
+        margin-top: 28px;
+        padding: 22px 14px;
+      }
+
+      .prompt-form {
+        border-radius: 22px;
+        flex-direction: column;
+      }
+
+      .prompt-form input {
+        min-height: 44px;
+        text-align: center;
+      }
+
+      .prompt-form button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <a href="#hero" class="floating-home" aria-label="الرجوع للأعلى">↑</a>
+
+  <nav class="navbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">☰</button>
+    <div class="quick-nav">
+      <a href="#hero" class="quick-btn home-btn">
+        <img src="logo.png" alt="AI Logo">
+      </a>
+      <a href="#objectives-group" class="quick-btn">الاهداف والتلخيصات</a>
+      <a href="#exams-group" class="quick-btn">الامتحانات</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="hero">
+    <div class="hero-content reveal show">
+      <h1>هندسة الأوامر فى الذكاء الأصطناعى</h1>
+      <p class="hero-team">
+        اعداد:
+        <br>تقي احمد علي الطريجي
+        <br>روان حاتم الرشيدي
+        <br>رودينا عماد المليجي
+        <br>ملك ايمن مصطفي
+        <br>منه محمد عزام
+        <br><br>
+        اشراف:
+        <br>د/إبراهيم العجمي
+      </p>
+      <a class="primary-btn" href="#intro">ابدأ الآن <span>↓</span></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="section reveal" id="intro">
+      <div class="feature-card">
+        <div class="image-box">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" alt="طلاب يستخدمون أدوات تعليمية ذكية" />
+          <div class="image-overlay">
+            <strong>مقدمة المشروع</strong>
+            <span>AI Prompts • Learning • Analysis</span>
+          </div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">مقدمة المشروع</div>
+          <h2>تعلم أذكى بطريقة أسهل</h2>
+          <p>في ظل التطور المتسارع في تقنيات الذكاء الاصطناعي، ظهرت العديد من الأدوات الذكية التي تسهم في تحسين طرق عرض وتحليل المحتوى التعليمي، ومن هنا جاءت فكرة هذا المشروع، الذي يعتمد على مجموعة من الـ Prompts الذكية لتحليل الكتب واستخراج أهم المعلومات منها، مثل التلخيص، وأهم المفاهيم، والأسئلة، والخريطة الذهنية، بالإضافة إلى تحديد نقاط القوة والضعف لكل كتاب.</p>
+          <p>ويهدف المشروع إلى دعم التعلم الذاتي وتسهيل الوصول إلى المعرفة بطريقة حديثة تتماشى مع التطور الرقمي في العملية التعليمية.</p>
+          <div class="stats-grid">
+            <div class="stat"><b>01</b><small>تحليل الكتب</small></div>
+            <div class="stat"><b>02</b><small>استخراج الأفكار</small></div>
+            <div class="stat"><b>03</b><small>دعم التعلم الذاتي</small></div>
+          </div>
+          <div class="nav-buttons">
+            <a class="ghost-btn" href="#objectives">التالي: الأهداف ←</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="objectives-group">
+      <div style="width:min(1180px, calc(100% - 32px)); margin:0 auto 40px; text-align:center;">
+        <h2 style="font-size:clamp(2.8rem,7vw,5.5rem); font-weight:900; color:#111; line-height:1; margin-bottom:14px;">الاهداف والتلخيصات</h2>
+        <p style="color:#776f67; font-size:1.1rem; font-weight:700;">مجموعة أدوات ذكية لتحليل المحتوى، بناء الخرائط الذهنية، وإنشاء الملخصات التعليمية.</p>
+      </div>
+    </section>
+
+    <section class="section reveal" id="objectives">
+      <div class="feature-card reverse">
+        <div class="image-box">
+          <img src="برومبت الاهداف.jpeg" alt="صورة برومبت الأهداف" onerror="this.src='https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop'" />
+          <div class="image-overlay"><strong>برومبت الاهداف</strong><span>Instructional Designer</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">برومبت الاهداف</div>
+          <h2>مصمم الأهداف السلوكية</h2>
+          <div class="prompt-box pre-line">Act as an expert Instructional Designer. Analyze the following book and derive its educational objectives.
+Language of Output: Please provide the entire response in Arabic.
+Requirements:
+General Goals: Define the broad purpose of the book.
+Behavioral (Measurable) Objectives: Create specific learning outcomes using action verbs, categorized into:
+Cognitive Domain (المجال المعرفي): (Focus on levels like knowledge, application, and analysis).
+Affective Domain (المجال الوجداني): (Focus on values, attitudes, and appreciation).
+Psychomotor Domain (المجال المهاري): (Focus on practical skills or procedural execution).
+Format: Use a structured list with clear Arabic headings.</div>
+          <div class="nav-buttons"><a class="ghost-btn" href="#intro">السابق</a><a class="ghost-btn" href="#visual-map">التالي: تصميم خريطة ذهنية ←</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="visual-map">
+      <div class="feature-card">
+        <div class="image-box">
+          <img src="تصميم خريطة ذهنية.jpeg" alt="تصميم خريطة ذهنية" />
+          <div class="image-overlay"><strong>تصميم خريطة ذهنية</strong><span>Text + Visual Output</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">تصميم خريطة ذهنية</div>
+          <h2>تصميم خريطة ذهنية</h2>
+          <div class="prompt-box pre-line">Create an Arabic mind map.
+
+Format:
+* Main Topic
+  * Subtopic
+    * Key Point
+
+- Clear, concise, well-structured.
+- Add "تدريبات عملية" (تطبيقات + أسئلة + مهام).
+
+Output:
+1) Text only
+2) Image (Arabic, same content, clean, colored, with icons)
+
+No extra text.
+
+Content:
+[PASTE HERE]</div>
+          <div class="nav-buttons"><a class="ghost-btn" href="#objectives">السابق</a><a class="ghost-btn" href="#exercises">التالي: تمارين عملية ←</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="text-map">
+      <div class="feature-card">
+        <div class="image-box">
+          <img src="خريطة ذهنية نصية.jpeg" alt="خريطة ذهنية نصية" />
+          <div class="image-overlay"><strong>خريطة ذهنية نصية</strong><span>Structured Mind Map</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">خريطة ذهنية نصية</div>
+          <h2>خريطة ذهنية نصية</h2>
+          <div class="prompt-box pre-line">Create a structured mind map from the content.
+
+- Use Arabic.
+- Format:
+  * Main Topic
+    * Subtopic
+      * Key Point
+- Keep it clear, concise, and well-organized.
+
+Add: "تدريبات عملية" (تطبيقات + أسئلة + مهام).
+
+---
+
+Output:
+1) Text mind map (Arabic only)
+2) Visual mind map image (Arabic, same content, clean, colored, with icons)
+
+No extra text.
+
+---
+
+Content:
+[PASTE HERE]</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="short-summary">
+      <div class="feature-card reverse">
+        <div class="image-box">
+          <img src="ملخص مختصر للمحتوي.jpeg" alt="ملخص مختصر للمحتوي" />
+          <div class="image-overlay"><strong>ملخص مختصر للمحتوي</strong><span>20 Pages Study Guide</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">ملخص مختصر للمحتوي</div>
+          <h2>ملخص مختصر للمحتوي</h2>
+          <div class="prompt-box pre-line">Turn this file into a well-organized, exam-ready study guide in about 20 pages. Include all key concepts, definitions, explanations, and important details needed for study and revision. Use simple language, clear headings, and bullet points. Do not omit any essential information.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="full-summary">
+      <div class="feature-card">
+        <div class="image-box">
+          <img src="ملخص شامل للمحتوي.jpeg" alt="ملخص شامل للمحتوي" />
+          <div class="image-overlay"><strong>ملخص شامل للمحتوي</strong><span>30 Pages Study Guide</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">ملخص شامل للمحتوي</div>
+          <h2>ملخص شامل للمحتوي</h2>
+          <div class="prompt-box pre-line">Turn this file into a complete, well-structured study guide in about 30 pages for exam preparation. Include all major concepts, definitions, explanations, comparisons, and essential details. Use simple language, clear headings, and bullet points. Keep all important information.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="applied-summary">
+      <div class="feature-card reverse">
+        <div class="image-box">
+          <img src="ملخص تفصيلي وتطبيقي للمحتوي.jpeg" alt="ملخص تفصيلي وتطبيقي للمحتوي" />
+          <div class="image-overlay"><strong>ملخص تفصيلي وتطبيقي للمحتوي</strong><span>Detailed Applied Guide</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">ملخص تفصيلي وتطبيقي للمحتوي</div>
+          <h2>ملخص تفصيلي وتطبيقي للمحتوي</h2>
+          <div class="prompt-box pre-line">Turn this file into a complete, well-structured study guide for exam preparation. Include all important concepts, definitions, explanations, comparisons, and key details without omitting essential information.
+
+For each concept, provide a clear definition and a simple but slightly detailed explanation that helps understanding. Also explain each feature or tool, where it is found in the program, and how to access it.
+
+Use clear headings and bullet points, and add summaries and important exam notes.
+
+Write everything in Arabic using simple and clear academic language.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="critical-review">
+      <div class="feature-card">
+        <div class="image-box">
+          <img src="الميزان النقدي للمحتوى.jpeg" alt="الميزان النقدي للمحتوى" />
+          <div class="image-overlay"><strong>الميزان النقدي للمحتوى</strong><span>Academic Review</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">الميزان النقدي للمحتوى</div>
+          <h2>الميزان النقدي للمحتوى</h2>
+          <div class="prompt-box pre-line">Act as a Professional Academic Reviewer.
+Provide a critical analysis of the strengths and weaknesses of the book.
+
+Language of Output: Please provide the entire response in Arabic.
+
+Requirements:
+Strengths (نقاط القوة): Analyze the quality of information, methodology, clarity, and unique value.
+Weaknesses (نقاط الضعف): Identify gaps, outdated content, logical inconsistencies, or areas that need improvement.
+Final Verdict: A brief summary of the book's overall quality.
+Format: Use bullet points and clear Arabic headings.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="exams-group">
+      <div style="width:min(1180px, calc(100% - 32px)); margin:0 auto 40px; text-align:center;">
+        <h2 style="font-size:clamp(2.8rem,7vw,5.5rem); font-weight:900; color:#111; line-height:1; margin-bottom:14px;">الامتحانات</h2>
+        <p style="color:#776f67; font-size:1.1rem; font-weight:700;">مجموعة برومبتات لإنشاء اختبارات وتدريبات تعليمية بشكل احترافي.</p>
+      </div>
+    </section>
+
+    <section class="section reveal" id="chapter-exam">
+      <div class="feature-card reverse">
+        <div class="image-box">
+          <img src="امتحان علي الفصول الدراسيه.jpeg" alt="امتحان علي الفصول الدراسيه" />
+          <div class="image-overlay"><strong>امتحان علي الفصول الدراسيه</strong><span>Chapter Exam</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">امتحان علي الفصول الدراسيه</div>
+          <h2>امتحان علي الفصول الدراسيه</h2>
+          <div class="prompt-box pre-line">Create a professional Arabic exam based on the chapters provided.
+
+Requirements:
+- Cover key concepts from each chapter.
+- Include multiple question types.
+- Use clear academic Arabic.
+- Add answer key.
+
+Content:
+[PASTE HERE]</div>
+        </div>
+      </div>
+    </section>
+
+    
+
+    <section class="section reveal" id="midterm-exam">
+      <div class="feature-card">
+        <div class="image-box">
+          <img src="امتحان نص العام الدراسي.jpeg" alt="امتحان نصف العام الدراسي" />
+          <div class="image-overlay"><strong>امتحان نصف العام الدراسي</strong><span>Midterm Exam</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">امتحان نصف العام الدراسي</div>
+          <h2>امتحان نصف العام الدراسي</h2>
+          <div class="prompt-box pre-line">Generate an Arabic midterm exam from the provided educational content.
+
+Requirements:
+- Include MCQ and essay questions.
+- Progressive difficulty.
+- Formal Arabic language.
+- Add answer model.
+
+Content:
+[PASTE HERE]</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="final-exam">
+      <div class="feature-card reverse">
+        <div class="image-box">
+          <img src="امتحان نهايه العام الدراسي.jpeg" alt="امتحان نهايه العام الدراسي" />
+          <div class="image-overlay"><strong>امتحان نهايه العام الدراسي</strong><span>Final Exam</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">امتحان نهايه العام الدراسي</div>
+          <h2>امتحان نهايه العام الدراسي</h2>
+          <div class="prompt-box pre-line">Create a complete Arabic final exam covering all educational units.
+
+Requirements:
+- Multiple question formats.
+- Analytical and applied questions.
+- Clear structure.
+- Include answer sheet.
+
+Content:
+[PASTE HERE]</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="combined-exams">
+      <div class="feature-card">
+        <div class="image-box">
+          <img src="امتحان قبلي ونصف العام الدراسي وامتحان نهايه العام الدراسي.jpeg" alt="امتحانات متعددة" />
+          <div class="image-overlay"><strong>امتحانات متعددة</strong><span>Pre • Mid • Final</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">امتحان قبلي ونصف العام الدراسي وامتحان نهايه العام الدراسي</div>
+          <h2>امتحانات متعددة</h2>
+          <div class="prompt-box pre-line">Create:
+- Pre-test Exam
+- Midterm Exam
+- Final Exam
+
+Requirements:
+- Arabic language.
+- Educational assessment standards.
+- Variety of question styles.
+- Clear formatting and answer key.
+
+Content:
+[PASTE HERE]</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="practical-exercises">
+      <div class="feature-card reverse">
+        <div class="image-box">
+          <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1200&auto=format&fit=crop" alt="تدريبات عمليه" />
+          <div class="image-overlay"><strong>تدريبات عمليه</strong><span>Applications & Tasks</span></div>
+        </div>
+        <div class="text-box">
+          <div class="section-label">تدريبات عمليه</div>
+          <h2>تدريبات عمليه</h2>
+          <div class="prompt-box pre-line">Act as an instructional designer and educational expert.
+
+Create practical exercises based on the provided content.
+
+Requirements:
+- Applications on concepts.
+- Training questions.
+- Practical tasks.
+- Clear academic Arabic.
+
+Content:
+[PASTE HERE]</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const revealElements = document.querySelectorAll('.reveal');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('header[id], section[id], footer[id]');
+    const progressBar = document.getElementById('progressBar');
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navLinks');
+    const floatingHome = document.querySelector('.floating-home');
+    const heroSection = document.getElementById('hero');
+    const navbar = document.querySelector('.navbar');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.18 });
+
+    revealElements.forEach((el) => revealObserver.observe(el));
+
+    function updateProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = progress + '%';
+    }
+
+    function updateActiveNav() {
+      let current = 'hero';
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 180;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+      });
+    }
+
+    window.addEventListener('scroll', () => {
+      updateProgress();
+      updateActiveNav();
+
+      if (window.scrollY > heroSection.offsetHeight - 200) {
+        floatingHome.classList.add('show');
+        navbar.classList.add('side-mode');
+      } else {
+        floatingHome.classList.remove('show');
+        navbar.classList.remove('side-mode');
+      }
+    });
+
+    if (menuToggle && navMenu) {
+      menuToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('open');
+      });
+    }
+
+    navLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        if (navMenu) navMenu.classList.remove('open');
+      });
+    });
+
+    updateProgress();
+    updateActiveNav();
+  </script>
+</body>
+</html>
